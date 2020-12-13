@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOAA.GHCND", "NOAA.GHCND\NOAA.GHCND.csproj", "{286E18E4-6021-46AD-A069-ECA52CD1A3A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOAA.GHCND", "NOAA.GHCND\NOAA.GHCND.csproj", "{286E18E4-6021-46AD-A069-ECA52CD1A3A4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOAA.GHCND.Tests", "NOAA.GHCND.Tests\NOAA.GHCND.Tests.csproj", "{8A8E1949-9692-428B-9F73-0086564B77CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOAA.GHCND.EXE", "NOAA.GHCND.EXE\NOAA.GHCND.EXE.csproj", "{F65F30C0-8767-46AC-945A-C85F0D395B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{286E18E4-6021-46AD-A069-ECA52CD1A3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{286E18E4-6021-46AD-A069-ECA52CD1A3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{286E18E4-6021-46AD-A069-ECA52CD1A3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8E1949-9692-428B-9F73-0086564B77CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8E1949-9692-428B-9F73-0086564B77CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8E1949-9692-428B-9F73-0086564B77CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8E1949-9692-428B-9F73-0086564B77CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65F30C0-8767-46AC-945A-C85F0D395B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65F30C0-8767-46AC-945A-C85F0D395B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65F30C0-8767-46AC-945A-C85F0D395B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65F30C0-8767-46AC-945A-C85F0D395B69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
