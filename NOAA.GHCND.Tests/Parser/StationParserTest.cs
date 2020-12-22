@@ -2,6 +2,7 @@
 using NOAA.GHCND.Parser;
 using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace NOAA.GHCND.Tests.Parser
 {
@@ -19,7 +20,7 @@ namespace NOAA.GHCND.Tests.Parser
             var invalidDataPoint = "  991 KS";
             var missingDataPoint = "-9999   ";
 
-            int data;
+            short data;
 
             new StationParser().TryParseData(validDataPoint, out data).Should().BeTrue();
             data.Should().Be(13);
@@ -47,10 +48,14 @@ namespace NOAA.GHCND.Tests.Parser
             var station = new Station("AJ000037735");
 
             new StationParser().ParseStationLine(line, station);
-            for (var x = new DateTime(2019, 05, 1); x.Month < 6; x = x.AddDays(1))
+            var data = station.GetData("TAVG", new DateTime(2019, 5, 1), new DateTime(2019,5,30)).ToArray();
+            for (short i = 0; i < data.Length; i++)
             {
-                station.GetOrAddDay(x).Data[DataElementConstants.AVERAGE_TEMPERATURE].Should().Be(x.Day);
+                data[i].Should().Be((short) (i + 1));
             }
+
+            Action exceptionThrowingAction = () => station.GetData("AVG", new DateTime(2019, 5, 1), new DateTime(2019, 5, 30)).ToArray();
+            exceptionThrowingAction.Should().Throw<ArgumentException>();
         }
     }
 }

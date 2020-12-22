@@ -23,6 +23,7 @@ namespace NOAA.GHCND.Parser
                 {
                     this._stationParser.ParseStationLine(line, station);
                 }
+                fileStream.Close();
             }
 
             return station;
@@ -30,9 +31,14 @@ namespace NOAA.GHCND.Parser
 
         public IReadOnlyDictionary<string, Station> LoadAllStations(string directory)
         {
-            return new DirectoryInfo(directory).GetFiles()
-                .Select(x => new { Key = x.Name.Replace(x.Extension, ""), Station = this.LoadStation(directory, x.Name.Replace(x.Extension, "")) })
-                .ToDictionary(x => x.Key, x => x.Station);
+            var stations = new Dictionary<string, Station>();
+            foreach (var file in Directory.GetFiles(directory))
+            {
+                var stationId = Path.GetFileNameWithoutExtension(file);
+                var station = this.LoadStation(directory, stationId);
+                stations.Add(stationId, station);
+            }
+            return stations;
         }
     }
 }

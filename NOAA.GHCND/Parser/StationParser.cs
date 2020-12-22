@@ -39,19 +39,19 @@ namespace NOAA.GHCND.Parser
             {
                 if (this.TryParseData(line.Substring(i, LENGTH_DATA), out var data))
                 {
-                    station.GetOrAddDay(date).AddData(dataType, data);
+                    station.AddDay(dataType, date, data);
                 }
                 date = date.AddDays(1);
             }
         }
 
-        protected internal bool TryParseData(string dataElement, out int data)
+        protected internal bool TryParseData(string dataElement, out short data)
         {
             // Return false if one of the following conditions is true:
             // 1. The value of the quality flag isn't a blank.
             // 2. The value of the data element is not parsable to an int.
             // 3. The value of the data (after parsing) is equal to no data.
-            if ((dataElement[INDEX_QUALITY] != ' ') || (false == int.TryParse(dataElement.Substring(0, LENGTH_VALUE), out data)) || data == NO_DATA) 
+            if ((dataElement[INDEX_QUALITY] != ' ') || (false == short.TryParse(dataElement.Substring(0, LENGTH_VALUE), out data)) || data == NO_DATA) 
             {
                 data = 0;
                 return false;
