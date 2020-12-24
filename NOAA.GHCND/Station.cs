@@ -10,7 +10,7 @@ namespace NOAA.GHCND
 
         public static readonly DateTime MIN_DAY = new DateTime(1700, 1, 1);
         public static readonly DateTime MAX_DAY = DateTime.Now;
-        public static int BUCKET_SIZE_YEARS = 50;
+        public static int BUCKET_SIZE_YEARS = 1;
         public static readonly DateTime[] DAY_BUCKET_BOUNDARIES;
             //new DateTime[] { new DateTime(1800, 1, 1), new DateTime(1900, 1, 1), new DateTime(2000, 1, 1), MAX_DAY };
 
