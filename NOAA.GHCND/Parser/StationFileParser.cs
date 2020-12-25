@@ -40,5 +40,20 @@ namespace NOAA.GHCND.Parser
             }
             return stations;
         }
+
+        public IReadOnlyDictionary<string, Station> LoadAllStationsParallel(string directory)
+        {
+            return Directory.GetFiles(directory)
+                .AsParallel()
+                .Select(x =>
+                {
+                    var stationId = Path.GetFileNameWithoutExtension(x);
+                    return new {
+                        stationId, 
+                        station = this.LoadStation(directory, stationId)
+                        };
+                })
+                .ToDictionary((x) => x.stationId, (x) => x.station);
+        }
     }
 }
