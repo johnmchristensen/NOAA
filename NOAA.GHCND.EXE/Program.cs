@@ -10,7 +10,7 @@ namespace NOAA.GHCND.EXE
         static void Main(string[] args)
         {
             var startDate = DateTime.Now;
-            var allStations = _fileParser.LoadAllStations(@"C:\Users\netbard\Dropbox\WeatherStationData\20201211\ghcnd_all\ghcnd_all");
+            var allStations = _fileParser.LoadAllStationsParallel(@"C:\Users\netbard\Dropbox\WeatherStationData\20201211\ghcnd_all\ghcnd_all");
             Console.Out.WriteLine($"Loaded {allStations.Count} in {(DateTime.Now - startDate)}");
             Console.In.Read();
         }
