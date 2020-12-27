@@ -12,9 +12,8 @@ namespace NOAA.GHCND
         public static readonly DateTime MAX_DAY = DateTime.Now;
         public static int BUCKET_SIZE_YEARS = 10;
         public static readonly DateTime[] DAY_BUCKET_BOUNDARIES;
-            //new DateTime[] { new DateTime(1800, 1, 1), new DateTime(1900, 1, 1), new DateTime(2000, 1, 1), MAX_DAY };
 
-        protected readonly Dictionary<string, short[][]> _dataByTypeMap = new Dictionary<string, short[][]>();
+        protected readonly Dictionary<string, int[][]> _dataByTypeMap = new Dictionary<string, int[][]>();
 
         static Station()
         {
@@ -34,11 +33,11 @@ namespace NOAA.GHCND
 
         public string Id { get; }
 
-        public void AddDay(string dataType, DateTime day, short data) 
+        public void AddDay(string dataType, DateTime day, int data) 
         {
             if (false == this._dataByTypeMap.ContainsKey(dataType))
             {
-                this._dataByTypeMap.Add(dataType, new short[DAY_BUCKET_BOUNDARIES.Length][]);
+                this._dataByTypeMap.Add(dataType, new int[DAY_BUCKET_BOUNDARIES.Length][]);
             }
 
             (var bucket, var offset) = this.GetDayBucketAndOffset(day);
@@ -51,7 +50,7 @@ namespace NOAA.GHCND
             this._dataByTypeMap[dataType][bucket][offset] = data;
         }
 
-        public IEnumerable<short> GetData(string dataType, DateTime startDate, DateTime endDate)
+        public IEnumerable<int> GetData(string dataType, DateTime startDate, DateTime endDate)
         {
             if (false == this._dataByTypeMap.ContainsKey(dataType))
             {
@@ -89,7 +88,7 @@ namespace NOAA.GHCND
             throw new ArgumentException(string.Format(MSG_NO_BUCKET_FOUND, day));
         }
             
-        protected short GetDataPoint(string dataType, DateTime day)
+        protected int GetDataPoint(string dataType, DateTime day)
         {
             var (bucket, offset) = this.GetDayBucketAndOffset(day);
             return this._dataByTypeMap[dataType][bucket][offset];
@@ -99,7 +98,7 @@ namespace NOAA.GHCND
         {
             int bucketSize = (bucketIndex == 0) ? ((int)(DAY_BUCKET_BOUNDARIES[0] - MIN_DAY).TotalDays) :
                 ((int)(DAY_BUCKET_BOUNDARIES[bucketIndex] - DAY_BUCKET_BOUNDARIES[bucketIndex - 1]).TotalDays);
-            this._dataByTypeMap[dateType][bucketIndex] = new short[bucketSize];
+            this._dataByTypeMap[dateType][bucketIndex] = new int[bucketSize];
         }
     }
 }

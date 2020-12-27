@@ -20,7 +20,7 @@ namespace NOAA.GHCND.Tests.Parser
             var invalidDataPoint = "  991 KS";
             var missingDataPoint = "-9999   ";
 
-            short data;
+            int data;
 
             new StationParser().TryParseData(validDataPoint, out data).Should().BeTrue();
             data.Should().Be(13);
