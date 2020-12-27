@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("NOAA.GHCND.Tests")]
@@ -23,6 +24,8 @@ namespace NOAA.GHCND.Parser
 
         public const string MSG_INVALID_ID = "Line ID does not match station id";
 
+        public static HashSet<string> OverflowCodes = new HashSet<string>();
+
         protected internal void ParseStationLine(string line, Station station)
         {
             var stationId = line.Substring(0, LENGTH_STATION_ID);
@@ -39,6 +42,10 @@ namespace NOAA.GHCND.Parser
             {
                 if (this.TryParseData(line.Substring(i, LENGTH_DATA), out var data))
                 {
+                    if (data < short.MinValue || short.MaxValue < data)
+                    {
+                        OverflowCodes.Add(dataType);
+                    }
                     station.AddDay(dataType, date, data);
                 }
                 date = date.AddDays(1);

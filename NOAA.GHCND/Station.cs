@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NOAA.GHCND
 {
-    public class Station
+    public class Station : IStation
     {
         public const string MSG_NO_DATA_0 = "{0} is not included in the data for this station";
         public const string MSG_NO_BUCKET_FOUND = "Could not calculate bucket for {0}";
@@ -33,7 +33,7 @@ namespace NOAA.GHCND
 
         public string Id { get; }
 
-        public void AddDay(string dataType, DateTime day, int data) 
+        public void AddDay(string dataType, DateTime day, int data)
         {
             if (false == this._dataByTypeMap.ContainsKey(dataType))
             {
@@ -41,7 +41,7 @@ namespace NOAA.GHCND
             }
 
             (var bucket, var offset) = this.GetDayBucketAndOffset(day);
-            
+
             if (null == this._dataByTypeMap[dataType][bucket])
             {
                 this.CreateDataBucket(dataType, bucket);
@@ -87,7 +87,7 @@ namespace NOAA.GHCND
 
             throw new ArgumentException(string.Format(MSG_NO_BUCKET_FOUND, day));
         }
-            
+
         protected int GetDataPoint(string dataType, DateTime day)
         {
             var (bucket, offset) = this.GetDayBucketAndOffset(day);
