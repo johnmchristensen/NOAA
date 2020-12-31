@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NOAA.GHCND.DataStructures;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 

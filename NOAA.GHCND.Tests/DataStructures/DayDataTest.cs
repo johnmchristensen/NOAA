@@ -21,13 +21,12 @@ namespace NOAA.GHCND.Tests.DataStructures
 
             var container = new DayData<int>(int.MinValue);
             container.AddDay(DATA_TYPE, date, data);
-            container.GetData(DATA_TYPE, date, date).First().Should().Be(data);
+            container.GetData(DATA_TYPE, date).Should().Be(data);
 
-            ((Action) (() => container.GetData(nameof(this.CanAddAndReceiveData), date, date).ToArray()))
-                .Should().Throw<ArgumentException>();
+            container.GetData(nameof(this.CanAddAndReceiveData), date).Should().Be(int.MinValue);
 
             var missingDate = DateTime.Now.AddDays(-1 * this._randomizer.Next(31, 60));
-            container.GetData(DATA_TYPE, missingDate, missingDate).First().Should().Be(int.MinValue);
+            container.GetData(DATA_TYPE, missingDate).Should().Be(int.MinValue);
         }
 
         [Test]

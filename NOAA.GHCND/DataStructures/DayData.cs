@@ -52,19 +52,14 @@ namespace NOAA.GHCND.DataStructures
             this._dataByTypeMap[dataType][bucket][offset] = data;
         }
 
-        public IEnumerable<T> GetData(string dataType, DateTime startDate, DateTime endDate)
+        public T GetData(string dataType, DateTime date)
         {
             if (false == this._dataByTypeMap.ContainsKey(dataType))
             {
-                throw new ArgumentException(string.Format(DayDataConstants.MSG_NO_DATA_0, dataType));
+                return this._defaultValue;
             }
 
-            var currentDate = startDate;
-            while (currentDate <= endDate)
-            {
-                yield return this.GetDataPoint(dataType, currentDate);
-                currentDate = currentDate.AddDays(1);
-            }
+            return this.GetDataPoint(dataType, date);
         }
 
         public bool ContainsDataForDate(string dataType, DateTime date)

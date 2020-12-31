@@ -1,18 +1,16 @@
-﻿using NOAA.GHCND.DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace NOAA.GHCND
+namespace NOAA.GHCND.DataStructures
 {
-    public class StationCompact : IStation
+    public class Station 
     {
         protected readonly DayData<short> _shortData = new DayData<short>(short.MinValue);
         protected readonly DayData<int> _intData = new DayData<int>(int.MinValue);
 
-        public StationCompact(string stationId)
+        public Station(string stationId)
         {
-            this.Id = stationId;
+            Id = stationId;
         }
 
         public string Id { get; }
@@ -21,26 +19,35 @@ namespace NOAA.GHCND
         {
             if (short.MinValue < data && data < short.MaxValue)
             {
-                this._shortData.AddDay(dataType, day, (short)data);
+                _shortData.AddDay(dataType, day, (short)data);
             }
             else
             {
-                this._intData.AddDay(dataType, day, data);
+                _intData.AddDay(dataType, day, data);
             }
         }
 
         public IEnumerable<int> GetData(string dataType, DateTime startDate, DateTime endDate)
         {
+            for (var i = startDate; i <= endDate; i = i.AddDays(1))
+            {
+                yield return GetData(dataType, i);
+            }
         }
 
         protected int GetData(string dataType, DateTime date)
         {
-            if (this._shortData.ContainsDataForDate(dataType, date))
+            if (_shortData.ContainsDataForDate(dataType, date))
             {
-                return this._shortData.GetData(dataType, date, date);
+                return _shortData.GetData(dataType, date);
             }
 
+            if (_intData.ContainsDataForDate(dataType, date))
+            {
+                return _intData.GetData(dataType, date);
+            }
 
+            return int.MinValue;
         }
     }
 }
