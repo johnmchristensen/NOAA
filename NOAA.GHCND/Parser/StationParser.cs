@@ -27,7 +27,7 @@ namespace NOAA.GHCND.Parser
 
         public static HashSet<string> OverflowCodes = new HashSet<string>();
 
-        protected internal void ParseStationLine(string line, Station station)
+        public void ParseStationLine(string line, StationData station)
         {
             var stationId = line.Substring(0, LENGTH_STATION_ID);
             if (station.Id != line.Substring(0, LENGTH_STATION_ID))

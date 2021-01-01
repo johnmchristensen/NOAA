@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace NOAA.GHCND.DataStructures
 {
-    public class Station 
+    public class StationData 
     {
         protected readonly DayData<short> _shortData = new DayData<short>(short.MinValue);
         protected readonly DayData<int> _intData = new DayData<int>(int.MinValue);
 
-        public Station(string stationId)
+        public StationData(string stationId)
         {
             Id = stationId;
         }
