@@ -1,4 +1,4 @@
-﻿using NOAA.GHCND.DataStructures;
+﻿using NOAA.GHCND.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,18 +7,18 @@ namespace NOAA.GHCND.Parser
 {
     public class StationInfoParser
     {
-        public const int LATITUDE_INDEX = 12;
+        public const int LATITUDE_INDEX = 11;
         public const int LONGITUDE_INDEX = 21;
-        public const int ELEVATION_INDEX = 32;
-        public const int STATE_INDEX = 39;
+        public const int ELEVATION_INDEX = 31;
+        public const int STATE_INDEX = 38;
         public const int NAME_INDEX = 41;
         public const int GSN_FLAG_INDEX = 72;
         public const int HCN_CRN_INDEX = 76;
         public const int WMO_INDEX = 80;
 
         public const int EXPECTED_LENGTH = 85;
-        public const int ID_LENGTH = 10;
-        public const int LATITUDE_LONGITUDE_LENGTH = 7;
+        public const int ID_LENGTH = 11;
+        public const int LATITUDE_LONGITUDE_LENGTH = 9;
         public const int ELEVATION_LENGTH = 5;
         public const int STATE_LENGTH = 2;
         public const int NAME_LENGTH = 29;
@@ -64,7 +64,8 @@ namespace NOAA.GHCND.Parser
                 IsHCN = isHCN,
                 IsCRN = isCRN,
                 Name = stationLine.Substring(NAME_INDEX, NAME_LENGTH).Trim(),
-                WMOId = stationLine.Substring(WMO_INDEX, WMO_LENGTH).Trim()
+                WMOId = stationLine.Substring(WMO_INDEX, WMO_LENGTH).Trim(),
+                State = stationLine.Substring(STATE_INDEX, STATE_LENGTH).Trim()
             };
             return true;
         }

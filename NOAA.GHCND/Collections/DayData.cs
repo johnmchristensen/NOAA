@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NOAA.GHCND.DataStructures
+namespace NOAA.GHCND.Collections
 {
     public static class DayDataConstants
     {
@@ -25,71 +25,71 @@ namespace NOAA.GHCND.DataStructures
         }
     }
 
-    public class DayData<T> where T: IEquatable<T>
+    public class DayData<T> where T : IEquatable<T>
     {
         protected readonly Dictionary<string, T[][]> _dataByTypeMap = new Dictionary<string, T[][]>();
         protected readonly T _defaultValue;
 
         public DayData(T defaultValue)
-{
-            this._defaultValue = defaultValue;
+        {
+            _defaultValue = defaultValue;
         }
 
         public void AddDay(string dataType, DateTime day, T data)
         {
-            if (false == this._dataByTypeMap.ContainsKey(dataType))
+            if (false == _dataByTypeMap.ContainsKey(dataType))
             {
-                this._dataByTypeMap.Add(dataType, new T[DayDataConstants.DAY_BUCKET_BOUNDARIES.Length][]);
+                _dataByTypeMap.Add(dataType, new T[DayDataConstants.DAY_BUCKET_BOUNDARIES.Length][]);
             }
 
-            (var bucket, var offset) = this.GetDayBucketAndOffset(day);
+            (var bucket, var offset) = GetDayBucketAndOffset(day);
 
-            if (null == this._dataByTypeMap[dataType][bucket])
+            if (null == _dataByTypeMap[dataType][bucket])
             {
-                this.CreateDataBucket(dataType, bucket);
+                CreateDataBucket(dataType, bucket);
             }
 
-            this._dataByTypeMap[dataType][bucket][offset] = data;
+            _dataByTypeMap[dataType][bucket][offset] = data;
         }
 
         public T GetData(string dataType, DateTime date)
         {
-            if (false == this._dataByTypeMap.ContainsKey(dataType))
+            if (false == _dataByTypeMap.ContainsKey(dataType))
             {
-                return this._defaultValue;
+                return _defaultValue;
             }
 
-            return this.GetDataPoint(dataType, date);
+            return GetDataPoint(dataType, date);
         }
 
         public bool ContainsDataForDate(string dataType, DateTime date)
         {
-            if (false == this._dataByTypeMap.ContainsKey(dataType))
+            if (false == _dataByTypeMap.ContainsKey(dataType))
             {
                 return false;
             }
 
-            return false == this._defaultValue.Equals(this.GetDataPoint(dataType, date));
+            return false == _defaultValue.Equals(GetDataPoint(dataType, date));
         }
 
         protected T GetDataPoint(string dataType, DateTime day)
         {
-            var (bucket, offset) = this.GetDayBucketAndOffset(day);
-            return this._dataByTypeMap[dataType][bucket][offset];
+            var (bucket, offset) = GetDayBucketAndOffset(day);
+            return _dataByTypeMap[dataType][bucket][offset];
         }
 
         protected void CreateDataBucket(string dataType, int bucketIndex)
         {
-            int bucketSize = (bucketIndex == 0) ? 
-                ((int)(DayDataConstants.DAY_BUCKET_BOUNDARIES[0] - DayDataConstants.MIN_DAY).TotalDays) :
-                ((int)(DayDataConstants.DAY_BUCKET_BOUNDARIES[bucketIndex] - 
-                    DayDataConstants.DAY_BUCKET_BOUNDARIES[bucketIndex - 1]).TotalDays);
-            
-            this._dataByTypeMap[dataType][bucketIndex] = new T[bucketSize];
-            
+            int bucketSize = bucketIndex == 0 ?
+                (int)(DayDataConstants.DAY_BUCKET_BOUNDARIES[0] - DayDataConstants.MIN_DAY).TotalDays :
+                (int)(DayDataConstants.DAY_BUCKET_BOUNDARIES[bucketIndex] -
+                    DayDataConstants.DAY_BUCKET_BOUNDARIES[bucketIndex - 1]).TotalDays;
+
+            _dataByTypeMap[dataType][bucketIndex] = new T[bucketSize];
+
             for (var i = 0; i < bucketSize; i++)
             {
-                this._dataByTypeMap[dataType][bucketIndex][i] = this._defaultValue;
+                _dataByTypeMap[dataType][bucketIndex][i] = _defaultValue;
             }
         }
 

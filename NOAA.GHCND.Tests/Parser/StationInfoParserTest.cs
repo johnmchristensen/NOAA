@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using NOAA.GHCND.DataStructures;
+using NOAA.GHCND.Data;
 using NOAA.GHCND.Parser;
 using NUnit.Framework;
 using System;
@@ -15,14 +15,14 @@ namespace NOAA.GHCND.Tests.Parser
             var parser = new StationInfoParser();
             StationInfo stationInfo;
 
-            var stationLine = "AG000060680  22.8000    5.4331 1362.0    TAMANRASSET                    GSN     60680";
+            var stationLine = "AG000060680 143.1167 -177.6767 1362.0    TAMANRASSET                    GSN     60680";
             parser.TryParseStationInfoLine(stationLine, out stationInfo).Should().BeTrue();
             stationInfo.Id.CountryCode.Should().Be("AG");
             stationInfo.Id.StationType.Should().Be(StationTypes.Unspecified);
-            stationInfo.Id.Id.Should().Be("0006068");
-            stationInfo.Latitude.Should().Be(22.8000m);
-            stationInfo.Longitude.Should().Be(5.43m);
-            stationInfo.Elevation.Should().Be(362.0m);
+            stationInfo.Id.Id.Should().Be("00060680");
+            stationInfo.Latitude.Should().Be(143.1167m);
+            stationInfo.Longitude.Should().Be(-177.6767m);
+            stationInfo.Elevation.Should().Be(1362.0m);
             stationInfo.Name.Should().Be("TAMANRASSET");
             stationInfo.IsCRN.Should().BeFalse();
             stationInfo.IsHCN.Should().BeFalse();

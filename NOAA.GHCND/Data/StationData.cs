@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NOAA.GHCND.Collections;
+using System;
 using System.Collections.Generic;
 
-namespace NOAA.GHCND.DataStructures
+namespace NOAA.GHCND.Data
 {
-    public class StationData 
+    public class StationData
     {
         protected readonly DayData<short> _shortData = new DayData<short>(short.MinValue);
         protected readonly DayData<int> _intData = new DayData<int>(int.MinValue);

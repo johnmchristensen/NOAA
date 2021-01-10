@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using NOAA.GHCND.DataStructures;
+using NOAA.GHCND.Collections;
+using NOAA.GHCND.Data;
 using NOAA.GHCND.Parser;
 using NUnit.Framework;
 using System;

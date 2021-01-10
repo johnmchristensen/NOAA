@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NOAA.GHCND.DataStructures
+namespace NOAA.GHCND.Data
 {
     public enum StationTypes
     {
