@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NOAA.GHCND.Parser;
+using NOAA.GHCND.Search.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,16 @@ namespace NOAA.GHCND.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton(new HistoricClimateDatabase());
+
+            // Support for parsing station files.
+            services.AddSingleton<StationFileParser>();
+
+            // Support for station info searching.
+            services.AddSingleton<IStationInfoSearchQueryRule, StationInfoSearchQueryRule>();
+            services.AddSingleton(new StationInfoCountryCodeQueryRule());
+
+            // Support for accessing the historical climate database.
+            services.AddSingleton<HistoricClimateDatabase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

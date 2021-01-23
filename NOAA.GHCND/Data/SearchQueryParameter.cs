@@ -1,4 +1,4 @@
-﻿using NOAA.GHCND.Enums;
+﻿using NOAA.GHCND.Search.Enums;
 using System;
 
 namespace NOAA.GHCND.Data

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using NOAA.GHCND.Data;
 using NOAA.GHCND.Parser;
+using NOAA.GHCND.Search.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,13 @@ namespace NOAA.GHCND.Web.Controllers
             }
 
             return this._database.StationInfos.Single(x => x.Id.FullId == id);
+        }
+
+        [HttpPost]
+        [Route("find")]
+        public StationInfo[] Find(SearchQueryParameter<StationInfoSearchFields>[] parameters)
+        {
+            return this._database.FindStationInfos(parameters);
         }
     }
 }

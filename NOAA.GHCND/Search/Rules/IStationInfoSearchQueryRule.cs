@@ -1,8 +1,8 @@
 ﻿using NOAA.GHCND.Data;
-using NOAA.GHCND.Enums;
+using NOAA.GHCND.Search.Enums;
 using System.Linq;
 
-namespace NOAA.GHCND.Rules
+namespace NOAA.GHCND.Search.Rules
 {
     public interface IStationInfoSearchQueryRule
     {
