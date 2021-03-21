@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace NOAA.GHCND.Parser
 {
-    public class StationParser
+    public class StationParserRule
     {
         public const int LENGTH_STATION_ID = 11;
         public const int LENGTH_VALUE = 5;

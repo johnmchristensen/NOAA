@@ -12,7 +12,7 @@ namespace NOAA.GHCND.Tests.Parser
         [Test]
         public void CanParseStationInfo()
         {
-            var parser = new StationInfoParser();
+            var parser = new StationInfoParserRule();
             StationInfo stationInfo;
 
             var stationLine = "AG000060680 143.1167 -177.6767 1362.0    TAMANRASSET                    GSN     60680";

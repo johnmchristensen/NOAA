@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NOAA.GHCND.Collections
 {
@@ -25,7 +26,7 @@ namespace NOAA.GHCND.Collections
         }
     }
 
-    public class DayData<T> where T : IEquatable<T>
+    public class DayData<T> : IDayData<T> where T : IEquatable<T>
     {
         protected readonly Dictionary<string, T[][]> _dataByTypeMap = new Dictionary<string, T[][]>();
         protected readonly T _defaultValue;
@@ -52,6 +53,11 @@ namespace NOAA.GHCND.Collections
             _dataByTypeMap[dataType][bucket][offset] = data;
         }
 
+        public string[] GetAvailableData()
+        {
+            return this._dataByTypeMap.Keys.ToArray();
+        }
+
         public T GetData(string dataType, DateTime date)
         {
             if (false == _dataByTypeMap.ContainsKey(dataType))
@@ -60,6 +66,29 @@ namespace NOAA.GHCND.Collections
             }
 
             return GetDataPoint(dataType, date);
+        }
+
+        public bool ContainsDataForType(string dataType)
+        {
+            return this._dataByTypeMap.ContainsKey(dataType);
+        }
+
+        public DateTime GetMinimumDateWithData(string dataType)
+        {
+            if (false == this._dataByTypeMap.ContainsKey(dataType))
+            {
+                return DateTime.MaxValue;
+            }
+
+            for (var i = DayDataConstants.MIN_DAY; i <= DateTime.Today; i = i.AddDays(1))
+            {
+                if (this.ContainsDataForDate(dataType, i))
+                {
+                    return i;
+                }
+            }
+
+            return DateTime.MaxValue;
         }
 
         public bool ContainsDataForDate(string dataType, DateTime date)
@@ -75,6 +104,13 @@ namespace NOAA.GHCND.Collections
         protected T GetDataPoint(string dataType, DateTime day)
         {
             var (bucket, offset) = GetDayBucketAndOffset(day);
+
+            if ((this._dataByTypeMap[dataType][bucket] == null) ||
+                (this._dataByTypeMap[dataType][bucket].Length <= offset))
+            {
+                return this._defaultValue;
+            }
+
             return _dataByTypeMap[dataType][bucket][offset];
         }
 

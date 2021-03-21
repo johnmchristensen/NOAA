@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NOAA.GHCND.Parser
 {
-    public class StationInfoParser
+    public class StationInfoParserRule
     {
         public const int LATITUDE_INDEX = 11;
         public const int LONGITUDE_INDEX = 21;

@@ -6,10 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NOAA.GHCND.Sources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NOAA.GHCND.Parser;
+using NOAA.GHCND.Adapters;
+using NOAA.GHCND.Rules;
 
 namespace NOAA.GHCND.Web
 {
@@ -26,7 +30,18 @@ namespace NOAA.GHCND.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton(new HistoricClimateDatabase());
+
+            services.AddAutoMapper(typeof(AdaptersProfile));
+
+            services.AddSingleton<NOAA.GHCND.Data.IConfiguration, Configuration>();
+
+            services.AddSingleton<StationInfoParserRule, StationInfoParserRule>();
+            services.AddSingleton<IStationSourceRule, StationFileSourceRule>();
+            services.AddSingleton<HistoricClimateDatabase, HistoricClimateDatabase>();
+
+            services.AddSingleton<NoConversionDataConversionRule, NoConversionDataConversionRule>();
+            services.AddSingleton<TenthsToWholeConversionFactorRule, TenthsToWholeConversionFactorRule>();
+            services.AddSingleton<IStationDatasetRule, StationDatasetRule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

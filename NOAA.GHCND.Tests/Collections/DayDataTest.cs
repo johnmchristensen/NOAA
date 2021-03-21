@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NOAA.GHCND.Tests.Collections
 {
-    [TestFixture]
+    [TestFixture]   
     public class DayDataTest
     {
         protected static string DATA_TYPE = "TEST";
@@ -53,6 +53,32 @@ namespace NOAA.GHCND.Tests.Collections
             container.ContainsDataForDate(DATA_TYPE, date.AddDays(1)).Should().BeFalse();
             container.ContainsDataForDate(nameof(this.CanTestIfDataPresent), date).Should().BeFalse();
             container.ContainsDataForDate(nameof(this.CanTestIfDataPresent), date.AddDays(1)).Should().BeFalse();
+        }
+
+        [Test]
+        public void WhenGettingDataFromBeyondLastDay_DefaultReturned()
+        {
+            var container = new DayData<int>(int.MinValue);
+            container.AddDay(nameof(this.WhenGettingDataFromBeyondLastDay_DefaultReturned), DateTime.Today.AddDays(-5), 1);
+            container.GetData(nameof(this.WhenGettingDataFromBeyondLastDay_DefaultReturned), DateTime.Today)
+                .Should()
+                .Be(int.MinValue);
+        }
+
+        [Test]
+        public void WhenGettingDataFromBeforeMinDay_DefaultReturned()
+        {
+            var container = new DayData<int>(int.MinValue);
+            container.GetData(nameof(this.WhenGettingDataFromBeforeMinDay_DefaultReturned),
+                DateTime.MinValue).Should().Be(int.MinValue);
+        }
+
+        [Test]
+        public void WhenGettingDataFromAfterMaxDay_DefaultReturned()
+        {
+            var container = new DayData<int>(int.MinValue);
+            container.GetData(nameof(this.WhenGettingDataFromAfterMaxDay_DefaultReturned),
+                DateTime.MaxValue).Should().Be(int.MinValue);
         }
     }
 }
